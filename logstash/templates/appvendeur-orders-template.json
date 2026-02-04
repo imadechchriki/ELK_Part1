@@ -1,0 +1,126 @@
+{
+  "index_patterns": ["appvendeur-orders-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 1,
+      "refresh_interval": "30s",
+      "index.lifecycle.name": "appvendeur-orders-policy",
+      "index.lifecycle.rollover_alias": "appvendeur-orders"
+    },
+    "mappings": {
+      "dynamic_templates": [
+        {
+          "strings_as_keywords": {
+            "match_mapping_type": "string",
+            "match": "*",
+            "unmatch": "error_message",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "@timestamp": { 
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "correlation_id": { 
+          "type": "keyword",
+          "ignore_above": 256
+        },
+        "username": { 
+          "type": "keyword",
+          "ignore_above": 128
+        },
+        "order_id": { 
+          "type": "keyword",
+          "ignore_above": 64
+        },
+        "order_status": { 
+          "type": "keyword",
+          "ignore_above": 64
+        },
+        "workflow_code": {
+          "type": "keyword",
+          "ignore_above": 64
+        },
+        "workflow_substatus": { 
+          "type": "keyword",
+          "ignore_above": 64
+        },
+        "action_status": { 
+          "type": "keyword",
+          "ignore_above": 32
+        },
+        "total_amount": { 
+          "type": "float"
+        },
+        "product_name": { 
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "operation_type": { 
+          "type": "keyword",
+          "ignore_above": 64
+        },
+        "technology_type": { 
+          "type": "keyword",
+          "ignore_above": 32
+        },
+        "config_type": {
+          "type": "keyword",
+          "ignore_above": 64
+        },
+        "technologie": {
+          "type": "keyword",
+          "ignore_above": 32
+        },
+        "is_risk": { 
+          "type": "boolean"
+        },
+        "has_invalid_documents": {
+          "type": "boolean"
+        },
+        "invalid_document_types": {
+          "type": "keyword",
+          "ignore_above": 512
+        },
+        "msisdn": { 
+          "type": "keyword",
+          "ignore_above": 32
+        },
+        "error_code": { 
+          "type": "keyword",
+          "ignore_above": 64
+        },
+        "error_message": { 
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 512
+            }
+          }
+        },
+        "execution_time": { 
+          "type": "integer"
+        },
+        "log_level": {
+          "type": "keyword",
+          "ignore_above": 16
+        },
+        "tags": { 
+          "type": "keyword",
+          "ignore_above": 64
+        }
+      }
+    }
+  }
+}
